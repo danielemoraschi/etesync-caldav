@@ -2,12 +2,16 @@ THIS_FILE:=$(lastword $(MAKEFILE_LIST))
 DOCKER=sudo docker
 DOCKER-COMPOSE=COMPOSE_HTTP_TIMEOUT=400 sudo docker-compose
 
+define sh-checkouts
+	cd $(shell pwd)/$1; \
+	./checkout.sh
+endef
 
 all: checkout build
 
 checkout:		## Checkout required source code
-	./etebase/checkout.sh
-	./web/checkout.sh
+	$(call sh-checkouts,etebase)
+	$(call sh-checkouts,web)
 
 build:			## Build the containers
 	$(DOCKER-COMPOSE) build
