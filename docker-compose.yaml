@@ -7,7 +7,7 @@ services:
 
   etebase:
     build: etebase
-    image: local/etebase
+    image: dmoraschi/etebase
     restart: always
     privileged: true
     environment:
@@ -26,7 +26,7 @@ services:
 
   etedav:
     build: etesync-dav
-    image: local/etesync-dav
+    image: dmoraschi/etesync-dav
     restart: always
     privileged: true
     environment:
@@ -47,7 +47,7 @@ services:
 
   eteweb:
     build: web
-    image: local/eteweb
+    image: dmoraschi/eteweb
     restart: always
     privileged: true
     stdin_open: true
