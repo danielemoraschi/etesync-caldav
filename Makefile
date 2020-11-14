@@ -3,15 +3,15 @@ DOCKER=sudo docker
 DOCKER-COMPOSE=COMPOSE_HTTP_TIMEOUT=400 sudo docker-compose
 
 define sh-checkouts
-	cd $(shell pwd)/$1; \
+	cd $1; \
 	./checkout.sh
 endef
 
 all: checkout build
 
 checkout:		## Checkout required source code
-	$(call sh-checkouts,etebase)
-	$(call sh-checkouts,web)
+	$(call sh-checkouts,$(shell pwd)/etebase)
+	$(call sh-checkouts,$(shell pwd)/web)
 
 build:			## Build the containers
 	$(DOCKER-COMPOSE) build
