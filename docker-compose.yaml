@@ -1,0 +1,67 @@
+version: '3'
+
+networks:
+  default:
+
+services:
+
+  etebase:
+    build: etebase
+    image: local/etebase
+    restart: always
+    privileged: true
+    environment:
+      - SERVER=0.0.0.0
+      - PORT=8000
+      - ETEBASE_DB_PATH=/data/db.sqlite3
+    volumes:
+      - ./etebase/etebase-server.ini:/etebase/etebase-server.ini
+      - ./data/etebase:/data
+    ports:
+      - "8000:8000"
+    networks:
+        default:
+          aliases:
+            - etebase
+
+  etedav:
+    build: etesync-dav
+    image: local/etesync-dav
+    restart: always
+    privileged: true
+    environment:
+      - PORT=37358
+      - ETESYNC_DATA_DIR=/data
+      - ETESYNC_URL=http://etebase:8000
+      - RUST_BACKTRACE=full
+    volumes:
+      - ./data/etedav:/data
+    ports:
+      - "37358:37358"
+    command:
+      - ./etesync-dav
+    networks:
+        default:
+          aliases:
+            - etedav
+
+  eteweb:
+    build: web
+    image: local/eteweb
+    restart: always
+    privileged: true
+    stdin_open: true
+    environment:
+      - PORT=3600
+      - REACT_APP_DEFAULT_API_PATH=http://etebase:8000
+    ports:
+      - "3600:3600"
+    command:
+        - /bin/sh
+        - -c
+        - |
+            PORT=3600 yarn start
+    networks:
+        default:
+          aliases:
+            - eteweb
