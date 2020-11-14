@@ -11,6 +11,7 @@ all: checkout build
 
 checkout:		## Checkout required source code
 	$(call sh-checkouts,$(shell pwd)/etebase)
+	$(call sh-checkouts,$(shell pwd)/etesync-dav)
 	$(call sh-checkouts,$(shell pwd)/web)
 
 build:			## Build the containers
