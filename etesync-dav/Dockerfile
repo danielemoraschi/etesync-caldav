@@ -11,8 +11,15 @@ COPY source $BASE_DIR
 
 RUN pip install virtualenv
 RUN virtualenv -p python3 venv
+
+# RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs --output rust.sh
+# RUN chmod +x rust.sh
+# RUN ./rust.sh -y
+# RUN . $HOME/.cargo/env
+# #RUN pip install sentencepiece
+# #RUN pip install transformers
+
 RUN . venv/bin/activate
-RUN pip install -r requirements.txt
 RUN pip install etesync-dav
 
 RUN set -ex ;\
